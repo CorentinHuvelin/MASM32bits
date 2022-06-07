@@ -18,7 +18,7 @@ includelib c:\masm32\lib\msvcrt.lib
 ; variables initialisees
 Phrase     db    "Chaine en minuscule : %s",10,0
 Phrase2     db    "Chaine en majuscule : %s",10,0
-question	db	"Entrez votre texte #> ", 0
+question	db	"Entrez votre texte : ", 0
 formatText db "%s",0
 
 .DATA?
@@ -36,7 +36,7 @@ TOUPPERCASE PROC
 		mov esi, [esp+8];
 
 		loop_upper:
-			mov al, [esi] ; On prend le caractère correspondant à l'adresse d'esi
+			mov al, [esi]; On prend le caractère correspondant à l'adresse d'esi
 			
 			; ascii de a = 97 donc on doit être plus grand que 97 
 			cmp al, 97;
@@ -75,7 +75,7 @@ start:
         call crt_scanf ; récupère l'entrée utilisateur et la stocke dans toUpper
 
 		push offset toUpper ; on place le second argument de la fonction appelée sur la pile
-        push offset Phrase; On place le second argument de la fonction appelée sur la pile
+        push offset Phrase; On place le premier argument de la fonction appelée sur la pile
         call crt_printf; on affiche l'entrée user
 		
 		push offset toUpper; on place la chaine de caractère à mettre en majuscule
