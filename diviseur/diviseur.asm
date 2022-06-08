@@ -47,7 +47,7 @@ DIVISEUR PROC
             mov ebx, ecx; On met la valeur du diviseur dans ebx
 
             mov eax, [ebp+8]; On met la valeur de l'user dans eax
-            xor edx, edx; On vide le registre qui nous sert au calcule
+            xor edx, edx; On vide le registre qui nous sert à recevoir le reste de la division
             mov [ebp-4], ebx; sauvegarde ebx dans la pile
             div ebx; On divise eax par ebx et la valeur de sortie sera dans edx
             test edx, edx; si edx = 0 alors ZF sera à 1 donc on prendra pas le jump suivant

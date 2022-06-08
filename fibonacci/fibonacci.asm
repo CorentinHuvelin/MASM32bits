@@ -42,7 +42,7 @@ FIBONACCI PROC
         mov [ebp-16], ebx; allocation de l
 
         mov ecx, [ebp-4]; on met i dans ecx
-        mov eax, [ebp+8] ; recupère n dans eax
+        mov eax, [ebp+8] ; recupère n, l'entrée l'user, dans eax
         
         cmp ecx, eax ; compare i à n
         jg return ; on jump à la fin si n est plus petit que 3
@@ -50,7 +50,7 @@ FIBONACCI PROC
 		loop_fibo:
 			
             mov ebx, [ebp-8]; on met j dans ebx
-            add ebx, [ebp-12]; on ajoute a j k
+            add ebx, [ebp-12]; on ajoute j a k
             mov [ebp-16], ebx; on place le résultat dans l
 
             mov ebx, [ebp-12]; on met k dans ebx
@@ -62,14 +62,12 @@ FIBONACCI PROC
             add ecx, 1; on incrémente ecx qui correspond à i
 
             ; compare i à n et fait un branchement vers la boucle si i > n
-            mov eax, [ebp+8] ; recupère n
             cmp ecx, eax ; compare i à n
             jle loop_fibo ; on jump au début de la fonction
 
 		return:
             mov eax, [ebp-12]; on met k dans eax pour le retour de la fonction 
-			; supprime la pile actuelle et retour sur la pile du programme précédent
-			mov esp, ebp;
+			mov esp, ebp; supprime la pile actuelle et retour sur la pile du programme précédent
 			pop ebp ;
 			ret;
 
@@ -83,7 +81,7 @@ start:
         push offset formatText; format a récupérer
         call crt_scanf ; récupère l'entrée utilisateur et la stocke dans result
 
-        push dword ptr result; on envoie l'entére user en tant que paramètre, dword ptr sert à indiquer la taille de l'opérande
+        push dword ptr result; on envoie l'entére user en tant que paramètre, dword (un mot de 32 bits) ptr sert à indiquer la taille de l'opérande
         call FIBONACCI; appelle à la fonction
 
         push eax; on met le résultat de la fonction
