@@ -11,7 +11,12 @@ Fonctionnement du débogueur :
 4 : Pile avec les adresses à gauche et valeurs à droite
 5 : Tas avec les adresses à gauche et valeurs à droite
 
-Parler du printf !!
+Pour afficher un texte sur l'interface de commande, nous allons utiliser la fonction crt_printf.
+Pour l'utiliser, nous devons garder en mémoire que les paramètres passés en assembleur doivent être ajouté à la pile avec ````push``` dans l'ordre inverse.
+Ici, nous allons donc d'abord pousser la chaîne "42" avant de pousser "Hello World : %d",10,0.
+Ensuite, il suffira d'appeler la fonction avec ```call crt_printf```.
+Cependant, nous pouvons nous interroger sur la capacité de ```crt_printf``` à récupérer sur la pile le bon nombre de paramètres. En effet comment cette fonction comprend qu'elle doit chercher un élément supplémentaire sur la pile afin de reconstruire la chaîne de caractère.
+En utilisant le déboggeur, nous pouvons vérifier comment ```crt_printf``` peut connaître son nombre d'arguments. Suite à l'étude de la fonction, il semblerait dans un premier temps, que la fonction scanne le premier paramètre pour compter le nombre de "%" présent dans la chaîne. Ensuite, elle ira chercher le nombre de paramètres correspondant dans la pile pour les assembler et les afficher.
 
 Pour message box : on crée deux variables, une pour le texte du message et l'autre pour le titre de la fenêtre dans la partie .DATA du fichier. Ensuite, on invoque la fonction MessageBox préexistante dans le logiciel ASM avec comme paramètre : le premier repésente la fenêtre nous avons mis NULL, le second le texte à afficher dans cette fenêtre puis en troisième son titre et enfin le type de message box utilisé nous avons choisi MB_OK afin de n'avoir qu'un bouton OK à cliquer pour fermer la fenêtre.
 Puis on réinitialise le registre eax à 0 avec la commande ```mov eax, 0```
@@ -25,15 +30,14 @@ Nous créons aussi une variable non initialisée : toUpper de taille et de type 
 
 Dans le début du code, on initialise la procédure de passage en majuscule.
 Tout d'abord création de la pile : push ebp suivi de mov ebp, esp
-Ensuite on récupère l'adresse de la chaine de caractère mov
-Dans loop_upper, nous allons définir le code correspondant au action à réaliser à chaque tour de boucle.
-Ici, nous allons dans un premier temps chercher un caractère sur le registre esi qui nous sert à parcourir la chaine de caractère, pour le stocker dans le registre al.
-Grâce à ```cmp```, nous pouvons comparer la valeur du caractère à des nombre tel que 97 et 122, soit les codes de a et z en ASCII.
-Si la valeur du caractère est comprise entre ces deux valeurs, alors nous restons dans la boucle, sinon nous passon dans la partie next_one du code. La suite du code de la boucle consiste à soustraire 32 à la valeur comprise dans ```al```, nous passerons ainsi du code de a à A (97 à 65) et de z à Z (122 à 90).
-Dans next_one, nous retrouverons le code permettant de passé au caractère suivant. Nous allons d'abord ajouter 1 à la valeur comprise dans ```esi``` pour passer au caractère suivant. En utilisant ````test al,al```, nous vérifions si nous avons atteint le dernier caractère de notre mot et nous utiliserons le jump conditionnel ```jnz loo_upper``` pour retourner dans la boucle si le résultat de ```test``` n'est pas 0.
-Pour finir, nous allons restoré la pile du programme précedant, en déplacant ```esp``` vers ```ebp``` puis en utilisant ````pop``` pour récupérer la valeur sauvegarder de ebp au début de notre fonction. 
-````ret``` va alors récupérer l'adresse sur la pile pour indiquer au pointeur de programme que la prochaine instruction se trouve à cette endroit, ce qui ramenera le programme dans notre fonction principale.
-
+Ensuite, on récupère l'adresse de la chaîne de caractère mov
+Dans loop_upper, nous allons définir le code correspondant aux actions à réaliser à chaque tour de boucle.
+Ici, nous allons dans un premier temps chercher un caractère sur le registre esi qui nous sert à parcourir la chaîne de caractère, pour le stocker dans le registre al.
+Grâce à ```cmp```, nous pouvons comparer la valeur du caractère à des nombres tel que 97 et 122, soit les codes de a et z en ASCII.
+Si la valeur du caractère est comprise entre ces deux valeurs, alors nous restons dans la boucle, sinon nous passons dans la partie next_one du code. La suite du code de la boucle consiste à soustraire 32 à la valeur comprise dans ```al```, nous passerons ainsi du code de a à A (97 à 65) et de z à Z (122 à 90).
+Dans next_one, nous retrouverons le code permettant de passer au caractère suivant. Nous allons d'abord ajouter 1 à la valeur comprise dans ```esi``` pour passer au caractère suivant. En utilisant ````test al,al```, nous vérifions si nous avons atteint le dernier caractère de notre mot et nous utiliserons le jump conditionnel ```jnz loo_upper``` pour retourner dans la boucle si le résultat de ```test``` n'est pas 0.
+Pour finir, nous allons restaurer la pile du programme précédant, en déplaçant ```esp``` vers ```ebp``` puis en utilisant ````pop``` pour récupérer la valeur sauvegardée d'ebp au début de notre fonction.
+````ret``` va alors récupérer l'adresse sur la pile pour indiquer au pointeur de programme que la prochaine instruction se trouve à cet endroit, ce qui ramènera le programme dans notre fonction principale.
 
 ### C. Variables locales
 
