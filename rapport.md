@@ -26,6 +26,23 @@ Dans le début du code, on initialise la procédure de passage en majuscule.
 Tout d'abord création de la pile : push ebp suivi de mov ebp, esp
 Ensuite on récupère l'adresse de la chaine de caractère mov
 
+### C. Variables locales
+
+Cette exercice a pout but de reproduire un algorithme C en assembleur en utilisant des variables locales. 
+    int myst( int n ){
+        int i, j, k, l;
+        j = 1;
+        k = 1;
+        for ( i = 3; i <= n; i++ ) {
+            l = j + k;
+            j = k;
+            k = l;
+        }
+        return k;
+    }
+
+Il s'agira pour commencer de récupérer l'entrée utilisateur, nous utiliserons la même méthode que précedemment en changeant le format de la chaine lu pour %d, correspondant à un entier. 
+
 ### E. Un peu de lecture
 
 Plongeon dans les appels systèmes Windows
