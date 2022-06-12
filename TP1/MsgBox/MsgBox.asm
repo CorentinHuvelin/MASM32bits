@@ -17,7 +17,7 @@ includelib c:\masm32\lib\msvcrt.lib
 .DATA
 ; variables initialisees
 MsgBoxCaption  db "Test du TD1 exo1",0
-MsgBoxText       db "Corentin est le meilleur !",0
+MsgBoxText       db "Nous sommes le meilleur groupe !",0
 
 .CODE
 start:

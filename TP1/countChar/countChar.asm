@@ -17,7 +17,7 @@ includelib c:\masm32\lib\msvcrt.lib
 .DATA
 ; variables initialisees
 Phrase     db    "Nombre de caracteres : %d",10,0
-question	db	"Entrez votre texte : ", 0
+question	db	"Entrez votre mot : ", 0
 formatText db "%s",0
 
 .DATA?
